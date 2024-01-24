@@ -4,7 +4,7 @@ class Lexer {
       this.position = 0;
       this.tokenTable = [
         { regex: /funcion/, type: 'FUNCION' },
-        { regex: /[a-z]+/, type: 'NOMBRE' },
+        { regex: /[a-zA-Z]+/, type: 'NOMBRE' },
         { regex: /int|string|float|bool/, type: 'TIPO' },
         { regex: /return/, type: 'RETURN' },
         { regex: /for/, type: 'FOR' },
@@ -31,32 +31,30 @@ class Lexer {
             return { type: tokenDef.type, value: match[0] };
           }
         }
-  
         // Ignorar espacios en blanco
         if (/\s/.test(char)) {
           this.position++;
           continue;
         }
-  
-        // Si no coincide con ninguno de los tokens conocidos, lanzar un error
+        // Encontrar tokens/signos desconocidos 
         throw new Error(`Caracter inesperado: ${char}`);
       }
-  
-      // Fin del código fuente, devolver token de fin
-      return { type: 'EOF', value: null };
+      //devolver token de fin
+      return { type: 'FINAL', value: null };
     }
   
     analyze() {
       let token = this.getNextToken();
-      while (token.type !== 'EOF') {
+      while (token.type !== 'FINAL') {
         console.log(token);
         token = this.getNextToken();
       }
     }
   }
-  
   // Ejemplo de uso
   const input = 'variable:sa';
   const lexer = new Lexer(input);
   lexer.analyze();
+  
+
   
