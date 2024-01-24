@@ -7,17 +7,18 @@ function Home() {
   const [codigo, setCodigo] = useState("");
   const [resul, setResul] = useState([]);
   const [esValido, setEsValido] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   
   function handleValidarClick() {
-
     analizarCodigo();
   }
 
-  
   const analizarCodigo = () => {
     const lexer = new Lexer(codigo);
     let tokens = [];
+    let error = null;
+  
     try {
       let token = lexer.getNextToken();
       while (token.type !== 'FINAL') {
@@ -25,10 +26,13 @@ function Home() {
         token = lexer.getNextToken();
       }
       setEsValido(true);
-    } catch (error) {
+    } catch (err) {
       setEsValido(false);
+      error = `Error en la posición ${lexer.position}: ${err.message}`;
     }
+  
     setResul(tokens.map((token) => `${token.type}: ${token.value}`));
+    setErrorMessage(error);  // Actualiza el mensaje de error
   };
 
 
@@ -69,12 +73,23 @@ function Home() {
             console.log("Valor:", newValue); setCodigo(newValue);
           }}
         />
-        <div className="line-validator">
+       <div className="line-validator">
           <button onClick={handleValidarClick}>Validar Código</button>
-          {esValido !== null && (<p>{esValido ? 'válida' : 'inválida'}</p>
-      )}
-          </div>
+          {esValido !== null && (
+            <p>
+              {esValido ? 'válido' : 'inválido'}
+              {esValido === false && errorMessage && ( // Muestra el mensaje de error si es inválido
+                <span style={{ color: 'red', marginLeft: '10px' }}>
+                  {errorMessage}
+                </span>
+              )}
+            </p>
+          )}
+        </div>
+
+
       </div>
+      
       <div style={{ marginLeft: '25px' }}>
         <ul style={{ listStyleType: 'none', padding: 0 }}>
           {resul.map((info, index) => (
