@@ -32,7 +32,7 @@ function Home() {
     }
   
     setResul(tokens.map((token) => `${token.type}: ${token.value}`));
-    setErrorMessage(error);  // Actualiza el mensaje de error
+    setErrorMessage(error);  
   };
 
 
@@ -78,7 +78,7 @@ function Home() {
           {esValido !== null && (
             <p>
               {esValido ? 'válido' : 'inválido'}
-              {esValido === false && errorMessage && ( // Muestra el mensaje de error si es inválido
+              {esValido === false && errorMessage && ( 
                 <span style={{ color: 'red', marginLeft: '10px' }}>
                   {errorMessage}
                 </span>
@@ -124,7 +124,7 @@ class Lexer {
       { regex: /\}/, type: 'CERRAR_CORCHETE' },
       { regex: /:/, type: 'DOS_PUNTOS' },
       { regex: /;/, type: 'PUNTO_COMA' },
-      { regex: /,/, type: 'COMA' }, // Agregado para manejar la coma
+      { regex: /,/, type: 'COMA' }, 
       { regex: /[0-9]+/, type: 'DIGITO' },
       { regex: /(<|>|<=|>=|!=|==)/, type: 'OPERADOR' },
     ];
