@@ -97,9 +97,6 @@ function Home() {
           ))}
         </ul>
       </div>
-
-
-
       <CodeBugDocs/>
     </>
   );
@@ -112,21 +109,22 @@ class Lexer {
     this.input = input;
     this.position = 0;
     this.tokenTable = [
-      { regex: /funcion/, type: 'FUNCION' },
-      { regex: /[a-zA-Z]+/, type: 'NOMBRE' },
-      { regex: /int|string|float|bool/, type: 'TIPO' },
-      { regex: /return/, type: 'RETURN' },
+      { regex: /fc/, type: 'FUNCION' },
       { regex: /for/, type: 'FOR' },
       { regex: /if/, type: 'IF' },
+      { regex: /int|string|float|bool/, type: 'TIPO' },
+      { regex: /(<=|>=|!=|==|<|>)/, type: 'OPERADOR' },
+      { regex: /return/, type: 'RETURN' },
       { regex: /\(/, type: 'ABRIR_PARENTESIS' },
       { regex: /\)/, type: 'CERRAR_PARENTESIS' },
       { regex: /\{/, type: 'ABRIR_CORCHETE' },
       { regex: /\}/, type: 'CERRAR_CORCHETE' },
       { regex: /:/, type: 'DOS_PUNTOS' },
       { regex: /;/, type: 'PUNTO_COMA' },
+      { regex: /\++/, type: 'Incremento' },
       { regex: /,/, type: 'COMA' }, 
       { regex: /[0-9]+/, type: 'DIGITO' },
-      { regex: /(<|>|<=|>=|!=|==)/, type: 'OPERADOR' },
+      { regex: /[a-zA-Z]+/, type: 'NOMBRE' }
     ];
   }
 
