@@ -155,135 +155,6 @@ function obtenerProduccion(noTerminal, siguiente) {
 
 switch (noTerminal) {
 
-
-  // PARA LA FUNCION
-
-  case 'F':
-    return ['f'];   
-  case 'F1':
-    return ['c'];    
-  case 'FUNC':
-    return ['F', 'C20'];      
-  case 'C20':
-    return ['F1', 'C20.1'];
-  case 'C20.1':
-    return ['L', 'C20.2'];
-  case 'C20.2':
-    return ['RL', 'C21'];
-  case 'C21':
-    return ['PI', 'C22'];
-  case 'C22':
-    return ['L', 'C22.1'];
-  case 'C22.1':
-    return ['RL', 'C23'];
-    case 'C23':
-      return ['C','C24']
-    case 'C24':
-      return ['L', 'C24.1'];
-    case 'C24.1':
-        return ['RL', 'C25']
-    case 'C25':
-        return ['PF', 'C26'];
-  case 'C26': 
-    return ['T'];
-
-  case 'T':
-    if (siguiente === 'i') {
-      console.log(siguiente)
-      return ['INT', 'INT1'];
-    }else if (siguiente === 'f') {
-      console.log(siguiente)
-      return ['FLO', 'FLO1'];
-    }else if (siguiente === 's') {
-      console.log(siguiente)
-      return ['STR', 'STR1'];
-    }else if (siguiente === 'b') {
-      console.log(siguiente)
-      return ['BO', 'BO1'];
-    }
-    else {
-      return null;
-    } 
-//---- BOOLEAN
-    case 'BO':
-      return ['b']
-    case 'BO1':
-      return ['BO2','BO3']
-    case 'BO3':
-      return ['BO4','BO5']
-    case 'BO5':
-      return ['BO6','BO7']
-    case 'BO7':
-      return ['BO8','BO9']
-    case 'BO9':
-      return ['BO10','BO11']
-    case 'BO11':
-      return ['BO12','C27']
-    case 'BO2':
-      return ['o']
-    case 'BO4':
-      return ['o']
-    case 'BO6':
-      return ['l']
-    case 'BO8':
-      return ['e']
-    case 'BO10':
-      return ['a']
-    case 'BO12':
-      return ['n']
-//---- STRING
-  case 'STR':
-    return ['s']
-  case 'STR1':
-    return ['STR2','STR3']
-  case 'STR3':
-    return ['STR4','STR5']
-  case 'STR5':
-    return ['STR6','STR7']
-  case 'STR7':
-    return ['STR8','STR9']
-  case 'STR9':
-    return ['STR10','C27']
-  case 'STR2':
-    return ['t']
-  case 'STR4':
-    return ['r']
-  case 'STR6':
-    return ['i']
-  case 'STR8':
-    return ['n']
-  case 'STR10':
-    return ['g']
-//---- FLOAT
-  case 'FLO':
-    return ['f']
-  case 'FLO1':
-    return ['FLO2','FLO3']
-  case 'FLO3':
-    return ['FLO4','FLO5']
-  case 'FLO5':
-    return ['FLO6','FLO7']
-  case 'FLO7':
-    return ['FLO8','C27']
-  case 'FLO2':
-      return ['l']
-  case 'FLO4':
-      return ['o']  
-  case 'FLO6':
-      return ['a']
-  case 'FLO8':
-      return ['t'] 
-//---- INT
-  case 'INT':
-    return ['i']
-  case 'INT1':
-    return ['INT2','INT3']
-  case 'INT2':
-    return ['n']
-  case 'INT3':
-    return ['INT4','C27']
-  case 'INT4':
-    return ['t']
 //-----------------------------------------------
 
   case 'DV':
@@ -315,6 +186,8 @@ switch (noTerminal) {
   case 'C':
     return [','] 
 
+
+    
 //   ESTE ES LA DEL IF
   case 'IF':
     return ['I', 'I1'];
@@ -356,71 +229,6 @@ switch (noTerminal) {
     case 'C7.2':
     return ['L','RL'];
 //-------------------------------------------------
-  
-case 'FOR':
-return ['FOR1', 'FOR2']
-case 'FOR1':
-return ['f']
-case 'FOR2':
-return ['FOR3', 'FOR4']
-case 'FOR3':
-return ['o']
-case 'FOR4':
-return ['FOR5', 'C12']
-case 'FOR5':
-return ['r']
-case 'C12':
-if (/[a-z]/i.test(siguiente)) {
-  return ['L', 'C12.1'];
-} else if (/\d/.test(siguiente)) {
-  return ['D', 'C12.2'];
-} else {
-  return null;
-}        
-case 'C12.1':
-return ['RL', 'C13']
-case 'C13':
-return ['PC', 'C14']
-case  'C14':
-  if (/[a-z]/i.test(siguiente)) {
-    return ['L', 'C14.1'];
-  } else if (/\d/.test(siguiente)) {
-    return ['D', 'C14.2'];
-  } else {
-    return null;
-  }
-case 'C14.1':
-return ['RL', 'C15']
-case 'C14.2':
-return ['RD' ,'C15']
-case 'C15':
-return ['PC', 'C16']
-
-case 'C16':
-if (/[a-z]/i.test(siguiente)) {
-  return ['L', 'C16.1'];
-} else if (/\d/.test(siguiente)) {
-  return ['D', 'C16.2'];
-} else {
-  return null;
-}
-case 'C16.1':
-return ['RL','ITE']
-case 'C16.2':
-return ['RD','ITE']
-case 'ITE':
-  return ['SU', 'SU1'];
-
-case 'C12.2':
-return ['RD', 'C13']
-
-
-case 'SU':
-return ['+']
-case 'SU1':
-  return ['SU2', 'C27'];
-case 'SU2':
-  return ['+'];
 
 // REUTILIZAR EL { return contenido }
   case 'C27':
@@ -500,3 +308,55 @@ case 'SU2':
 
 
 export default Home;
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------
+function obtenerProduccion(noTerminal, siguiente) {
+  const producciones = {
+      DV: ['L', 'DV1'],
+      DV1: ['RL', 'C1'],
+      C1: ['DP', 'C2'],
+      C2: ['D', 'C3'],
+      C3: ['RD'],
+      RD: /[0-9]/.test(siguiente) ? ['D', 'RD'] : ['ε'],
+      RL: /[a-z]/.test(siguiente) ? ['L', 'RL'] : ['ε'],
+      D: /[0-9]/.test(siguiente) ? [siguiente] : null,
+      L: /[a-z]/.test(siguiente) ? [siguiente] : null,
+      PC: [';'],
+      DP: [':'],
+      PF: [')'],
+      PI: ['('],
+      C: [','],
+      IF: ['I', 'I1'],
+      I: ['i'],
+      I1: ['I2', 'C4'],
+      I2: ['f'],
+      C4: ['PI', 'C5'],
+      C5: ['L', 'C5.1'],
+      'C5.1': ['RL', 'C6'],
+      C6: ['OP', 'C7'],
+      OP: /^(==|>|!=|<|>=|<=)$/.test(siguiente) ? [siguiente] : null,
+      C7: /^\d+$/.test(siguiente) ? ['D', 'C7.1'] : /^[a-zA-Z]$/.test(siguiente) ? ['C7.2', 'C8'] : null,
+      'C7.1': ['RD', 'C8'],
+      C8: ['PF', 'C27'],
+      'C7.2': ['L', 'RL'],
+      C27: ['LLAI', 'C28'],
+      LLAI: ['{'],
+      C28: ['RE', 'CO'],
+      RE: /^[r][e][t][u][r][n]$/,
+      CO: /^[c][o][n][t][e][n][i][d][o]$/,
+      C30: ['}']
+  };
+
+  return producciones[noTerminal] || null;
+}
+
+
+
+
