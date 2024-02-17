@@ -6,45 +6,43 @@ export default class Parser {
 
   // Este método consume el siguiente token si su tipo coincide con el esperado
   consume(type) {
-    if (this.tokens[this.position].type === type) {
+    if (
+      this.position < this.tokens.length &&
+      this.tokens[this.position].type === type
+    ) {
       return this.tokens[this.position++];
     }
     throw new Error(
       `Se esperaba token de tipo ${type}, pero se obtuvo ${
-        this.tokens[this.position].type
+        this.position < this.tokens.length
+          ? this.tokens[this.position].type
+          : "undefined"
       }`
     );
   }
 
   // Este método verifica si el siguiente token es de un tipo específico
   match(type) {
-    return this.tokens[this.position].type === type;
+    return (
+      this.position < this.tokens.length &&
+      this.tokens[this.position].type === type
+    );
   }
 
   valueReturn() {
-    if (
-      this.match("DIGITO") ||
-      this.match("NOMBRE") ||
-      this.match("COMILLAS")
-    ) {
-      while (
-        this.match("DIGITO") ||
-        this.match("NOMBRE") ||
-        this.match("COMILLAS")
-      ) {
+    if (this.match("DIGITO") || this.match("NOMBRE")) {
+      while (this.match("DIGITO") || this.match("NOMBRE")) {
         if (this.match("DIGITO")) {
           this.consume("DIGITO");
-        } else if (this.match("COMILLAS")) {
-          this.consume("COMILLAS");
+        } else if (this.match("NOMBRE")) {
           if (this.match("NOMBRE") || this.match("DIGITO")) {
             this.validarNombreODigito();
           }
-          this.consume("COMILLAS");
         } else if (this.match("NOMBRE")) {
           this.consume("NOMBRE");
         } else {
           throw new Error(
-            "Se esperaba un DIGITO, un NOMBRE o una combinación de NOMBRE y DIGITO dentro de comillas"
+            "Se esperaba un DIGITO, un NOMBRE o una combinación de NOMBRE y DIGITO"
           );
         }
       }
@@ -67,17 +65,17 @@ export default class Parser {
   }
 
   value() {
-    let value;
-    if (this.match("DIGITO")) {
-      value = this.consume("DIGITO").value;
-    } else if (this.match("COMILLAS")) {
-      this.consume("COMILLAS");
-      this.validarNombreODigito();
-      this.consume("COMILLAS");
+    if (this.match("NOMBRE")) {
+      this.consume("NOMBRE");
+      if (this.match("DIGITO")) {
+        this.consume("DIGITO");
+      }
+    } else if (this.match("DIGITO")) {
+      console.log("DIGITO");
+      this.consume("DIGITO");
     } else {
       throw new Error("Valor vacío no permitido");
     }
-    return value;
   }
 
   body() {
