@@ -20,6 +20,7 @@ export default class Lexer {
       { regex: /,/, type: "COMA" },
       { regex: /[0-9]+/, type: "DIGITO" },
       { regex: /[a-zA-Z]+/, type: "NOMBRE" },
+      //! regla extra
       { regex: /"/, type: "COMILLAS" },
     ];
   }

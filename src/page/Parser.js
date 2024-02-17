@@ -21,17 +21,6 @@ export default class Parser {
     return this.tokens[this.position].type === type;
   }
 
-  parameters() {
-    while (this.match("NOMBRE")) {
-      this.consume("NOMBRE");
-      if (this.match("COMA")) {
-        this.consume("COMA");
-      } else {
-        break;
-      }
-    }
-  }
-
   valueReturn() {
     if (
       this.match("DIGITO") ||
@@ -114,7 +103,9 @@ export default class Parser {
       this.consume("FUNCION");
       this.consume("NOMBRE");
       this.consume("ABRIR_PARENTESIS");
-      this.parameters();
+      this.consume("NOMBRE");
+      this.consume("COMA");
+      this.consume("NOMBRE");
       this.consume("CERRAR_PARENTESIS");
       this.consume("TIPO");
       this.consume("ABRIR_CORCHETE");
