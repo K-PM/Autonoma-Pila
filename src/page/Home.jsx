@@ -27,7 +27,6 @@ function Home() {
       }
       setEsValido(true);
 
-      // Aquí instancias y usas el Parser
       const parser = new Parser(tokens);
       parser.parse();
     } catch (err) {

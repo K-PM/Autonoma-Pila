@@ -2,6 +2,7 @@ export default class Lexer {
   constructor(input) {
     this.input = input;
     this.position = 0;
+    this.line = 1;
     this.tokenTable = [
       { regex: /fc/, type: "FUNCION" },
       { regex: /for/, type: "FOR" },
@@ -30,14 +31,20 @@ export default class Lexer {
         const match = this.input.slice(this.position).match(tokenDef.regex);
         if (match && match.index === 0) {
           this.position += match[0].length;
-          return { type: tokenDef.type, value: match[0] };
+          if (char === "\n") {
+            this.line++;
+          }
+          return { type: tokenDef.type, value: match[0], line: this.line };
         }
       }
       if (/\s/.test(char)) {
         this.position++;
+        if (char === "\n") {
+          this.line++;
+        }
         continue;
       }
-      throw new Error(`Caracter inesperado: ${char}`);
+      throw new Error(`Caracter inesperado: ${char} en la línea ${this.line}`);
     }
     return { type: "FINAL", value: null };
   }

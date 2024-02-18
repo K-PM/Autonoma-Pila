@@ -5,20 +5,24 @@ export default class Parser {
   }
 
   // Este método consume el siguiente token si su tipo coincide con el esperado
-  consume(type) {
-    if (
-      this.position < this.tokens.length &&
-      this.tokens[this.position].type === type
-    ) {
-      return this.tokens[this.position++];
-    }
-    throw new Error(
-      `Se esperaba token de tipo ${type}, pero se obtuvo ${
+  consume(tokenType) {
+    if (this.match(tokenType)) {
+      let currentLine = this.tokens[this.position].line;
+      this.position++;
+      return currentLine;
+    } else {
+      let currentLine =
         this.position < this.tokens.length
-          ? this.tokens[this.position].type
-          : "undefined"
-      }`
-    );
+          ? this.tokens[this.position].line
+          : "desconocida";
+      throw new Error(
+        `Se esperaba ${tokenType}, pero se encontró ${
+          this.position < this.tokens.length
+            ? this.tokens[this.position].type
+            : "desconocido"
+        } en la línea ${currentLine}`
+      );
+    }
   }
 
   // Este método verifica si el siguiente token es de un tipo específico
@@ -32,6 +36,7 @@ export default class Parser {
   valueReturn() {
     if (this.match("DIGITO") || this.match("NOMBRE")) {
       while (this.match("DIGITO") || this.match("NOMBRE")) {
+        let currentLine = this.tokens[this.position - 1].line;
         if (this.match("DIGITO")) {
           this.consume("DIGITO");
         } else if (this.match("NOMBRE")) {
@@ -42,16 +47,20 @@ export default class Parser {
           this.consume("NOMBRE");
         } else {
           throw new Error(
-            "Se esperaba un DIGITO, un NOMBRE o una combinación de NOMBRE y DIGITO"
+            `Se esperaba un DIGITO, un NOMBRE o una combinación de NOMBRE y DIGITO en la línea ${currentLine}`
           );
         }
       }
     } else {
-      throw new Error("Se esperaba un valor de retorno");
+      let currentLine = this.tokens[this.position - 1].line;
+      throw new Error(
+        `Se esperaba un valor de retorno en la línea ${currentLine}`
+      );
     }
   }
 
   validarNombreODigito() {
+    let currentLine = this.tokens[this.position].line;
     if (this.match("NOMBRE")) {
       this.consume("NOMBRE");
       if (this.match("DIGITO")) {
@@ -59,22 +68,35 @@ export default class Parser {
       }
     } else {
       throw new Error(
-        "Se esperaba un NOMBRE o una combinación de NOMBRE y DIGITO"
+        `Se esperaba un NOMBRE o una combinación de NOMBRE y DIGITO en la línea ${currentLine}`
       );
     }
   }
 
   value() {
-    if (this.match("NOMBRE")) {
-      this.consume("NOMBRE");
-      if (this.match("DIGITO")) {
+    if (this.position < this.tokens.length) {
+      if (this.match("NOMBRE")) {
+        let currentLine = this.tokens[this.position - 1].line;
+        this.consume("NOMBRE");
+        if (this.match("DIGITO")) {
+          this.consume("DIGITO");
+        } else {
+          throw new Error(
+            `Valor vacío no permitido en la línea ${currentLine}`
+          );
+        }
+      } else if (this.match("DIGITO")) {
         this.consume("DIGITO");
+      } else {
+        let currentLine = this.tokens[this.position - 1].line;
+        throw new Error(`Valor vacío no permitido en la línea ${currentLine}`);
       }
-    } else if (this.match("DIGITO")) {
-      console.log("DIGITO");
-      this.consume("DIGITO");
     } else {
-      throw new Error("Valor vacío no permitido");
+      throw new Error(
+        `Se esperaba un token, pero no hay más tokens en la línea ${
+          this.tokens[this.position - 1].line
+        }`
+      );
     }
   }
 
@@ -85,13 +107,16 @@ export default class Parser {
   }
 
   contentFor() {
+    let currentLine = this.tokens[this.position].line;
     if (this.match("NOMBRE")) {
       this.consume("NOMBRE");
       this.consume("DOS_PUNTOS");
       this.value();
     } else {
       throw new Error(
-        `Declaración no válida: ${this.tokens[this.position].type}`
+        `Declaración no válida: ${
+          this.tokens[this.position].type
+        } en la línea ${currentLine}`
       );
     }
   }
