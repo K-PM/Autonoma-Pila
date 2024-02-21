@@ -74,21 +74,21 @@ function esNoTerminal(simbolo) {
 function obtenerProduccion(noTerminal, siguiente) {
   const producciones = {
 
-      S:['I','V'],
-      V:['v','a','r','T'],
+      S:['I','V','F'],
+      V:['v','a','r','T','G'],
       //T:['TIPO','G'],
-      G:['N','O'],
-      N:['L','R','IGUAL'],
-      O:['TAKEDATA','P'],
-      P:['(',')','F'],
+      G:['N','IGUAL','O'],
+      N:['L','R'],
+      O:['t','a','k','e','D','a','t','a','P'],
+      P:['(',')'],
 
       IGUAL:['='],
-      T: siguiente === 'i' ? ['i','n','t', 'G'] :
-            siguiente === 'f' ? ['f','l','o','a','t', 'G'] :
-            siguiente === 's' ? ['s','t','r','i','n','g', 'G'] :
+      T: siguiente === 'i' ? ['i','n','t'] :
+            siguiente === 'f' ? ['f','l','o','a','t'] :
+            siguiente === 's' ? ['s','t','r','i','n','g'] :
             null,
       
-      TAKEDATA:['t','a','k','e','D','a','t','a'],
+      //TAKEDATA:['t','a','k','e','D','a','t','a'],
             
       I: ['{'],
       F: ['}'],

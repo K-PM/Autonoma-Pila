@@ -141,30 +141,30 @@ function esNoTerminal(simbolo) {
 }
 
 function obtenerProduccion(noTerminal, siguiente) {
-const producciones = {
+  const producciones = {
 
-    S:['I','V'],
-    V:['v','a','r','T'],
-    //T:['TIPO','G'],
-    G:['N','O'],
-    N:['L','R','IGUAL'],
-    O:['TAKEDATA','P'],
-    P:['(',')','F'],
+      S:['I','V','F'],
+      V:['v','a','r','T','G'],
+      
+      G:['N','=','O'],
+      N:['L','R'],
+      O:['t','a','k','e','D','a','t','a','P'],
+      P:['(',')'],
 
-    IGUAL:['='],
-    T: siguiente === 'i' ? ['i','n','t', 'G'] :
-          siguiente === 'f' ? ['f','l','o','a','t', 'G'] :
-          siguiente === 's' ? ['s','t','r','i','n','g', 'G'] :
-          null,
-    
-    TAKEDATA:['t','a','k','e','D','a','t','a'],
-          
-    I: ['{'],
-    F: ['}'],
-    R: /[a-z]/.test(siguiente) ? ['L', 'R'] : ['ε'],
-    L: /[a-z]/.test(siguiente) ? [siguiente] : null,
+      //IGUAL:['='],
+      T: siguiente === 'i' ? ['i','n','t'] :
+            siguiente === 'f' ? ['f','l','o','a','t'] :
+            siguiente === 's' ? ['s','t','r','i','n','g'] :
+            null,
+      
+      //TAKEDATA:['t','a','k','e','D','a','t','a'],
+            
+      I: ['{'],
+      F: ['}'],
+      R: /[a-z]/.test(siguiente) ? ['L', 'R'] : ['ε'],
+      L: /[a-z]/.test(siguiente) ? [siguiente] : null,
 
-};
+  };
 
 
   return producciones[noTerminal];
