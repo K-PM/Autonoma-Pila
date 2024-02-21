@@ -143,13 +143,13 @@ function esNoTerminal(simbolo) {
 function obtenerProduccion(noTerminal, siguiente) {
   const producciones = {
 
-      S:['I','V','F'],
-      V:['v','a','r','T','G'],
-      
-      G:['N','=','O'],
-      N:['L','R'],
-      O:['t','a','k','e','D','a','t','a','P'],
-      P:['(',')'],
+      S: siguiente === '{' ? ['I','V','F'] : null,
+      V: siguiente === 'v' ? ['v','a','r','T','G'] : null,
+      G: /[a-z]/.test(siguiente) ?['N','=','O'] : null,
+
+      N:/[a-z]/.test(siguiente) ? ['L','R']:null,
+      O: siguiente === 't' ? ['t','a','k','e','D','a','t','a','P'] : null,
+      P: siguiente === '(' ? ['(',')'] : null,
 
       //IGUAL:['='],
       T: siguiente === 'i' ? ['i','n','t'] :
@@ -159,8 +159,8 @@ function obtenerProduccion(noTerminal, siguiente) {
       
       //TAKEDATA:['t','a','k','e','D','a','t','a'],
             
-      I: ['{'],
-      F: ['}'],
+      I: siguiente === '{' ? ['{'] : null,
+      F: siguiente === '}' ? ['}'] : null,
       R: /[a-z]/.test(siguiente) ? ['L', 'R'] : ['ε'],
       L: /[a-z]/.test(siguiente) ? [siguiente] : null,
 
