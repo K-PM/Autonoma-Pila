@@ -151,14 +151,11 @@ function obtenerProduccion(noTerminal, siguiente) {
       O: siguiente === 't' ? ['t','a','k','e','D','a','t','a','P'] : null,
       P: siguiente === '(' ? ['(',')'] : null,
 
-      //IGUAL:['='],
       T: siguiente === 'i' ? ['i','n','t'] :
             siguiente === 'f' ? ['f','l','o','a','t'] :
             siguiente === 's' ? ['s','t','r','i','n','g'] :
             null,
       
-      //TAKEDATA:['t','a','k','e','D','a','t','a'],
-            
       I: siguiente === '{' ? ['{'] : null,
       F: siguiente === '}' ? ['}'] : null,
       R: /[a-z]/.test(siguiente) ? ['L', 'R'] : ['ε'],
